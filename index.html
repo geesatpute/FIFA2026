@@ -2,108 +2,129 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>FIFA World Cup 2026 — Group Stage</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#fff;--bg2:#f5f5f4;--bg3:#f0efed;
+  --bg:#fff;--bg2:#f5f5f4;--bg3:#eeece9;
   --text:#1a1a1a;--text2:#6b6b6b;--text3:#9a9a9a;
-  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
+  --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.18);
   --blue:#185FA5;--blue-bg:#E6F1FB;
-  --green:#27500A;--green-bg:#EAF3DE;--live:#3B6D11;
-  --star:#B57B00;--r:12px;--rs:8px;
+  --green:#27500A;--green-bg:#EAF3DE;--live-col:#3B6D11;
+  --star:#B57B00;
 }
 @media(prefers-color-scheme:dark){:root{
-  --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
+  --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
   --text:#f0f0f0;--text2:#a0a0a0;--text3:#6a6a6a;
-  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18);
+  --border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.18);
   --blue:#85B7EB;--blue-bg:#042C53;
-  --green:#C0DD97;--green-bg:#173404;--live:#639922;
+  --green:#C0DD97;--green-bg:#173404;--live-col:#639922;
   --star:#EF9F27;
 }}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
-.site-header{background:var(--bg);border-bottom:0.5px solid var(--border);padding:1rem 1.5rem;position:sticky;top:0;z-index:100}
-.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.site-title{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px}
-.title-emoji{font-family:'Noto Color Emoji',sans-serif;font-size:22px}
-.last-updated{font-size:11px;color:var(--text3)}
-.refresh-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:background .15s;font-family:inherit}
-.refresh-btn:hover{background:var(--bg2)}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* Header */
+.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:.85rem 1rem;position:sticky;top:0;z-index:100;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.hdr-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.hdr-title{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.hdr-emoji{font-family:'Noto Color Emoji',sans-serif;font-size:20px;line-height:1}
+.hdr-right{display:flex;align-items:center;gap:10px;min-width:0}
+.hdr-ts{font-size:11px;color:var(--text3);white-space:nowrap}
+.btn-refresh{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;white-space:nowrap;touch-action:manipulation}
+.btn-refresh:active{background:var(--bg2)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.spinning{animation:spin 1s linear infinite}
-.controls-bar{background:var(--bg);border-bottom:0.5px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:57px;z-index:99}
-.controls-inner{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.controls-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.search-input{height:32px;padding:0 10px;border:0.5px solid var(--border2);border-radius:20px;background:var(--bg2);color:var(--text);font-size:13px;font-family:inherit;width:180px;outline:none}
-.search-input:focus{border-color:var(--blue)}
-.pill{display:inline-flex;align-items:center;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border);background:var(--bg);color:var(--text2);transition:background .12s;user-select:none}
-.pill:hover{background:var(--bg2)}
-.pill.active{background:var(--bg3);color:var(--text);border-color:var(--border2)}
-.main{max-width:1100px;margin:0 auto;padding:1.5rem}
-.banner{padding:.75rem 1rem;border-radius:var(--rs);font-size:13px;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-.banner-error{background:#fee2e2;color:#991b1b;border:0.5px solid #fca5a5}
-.banner-loading{background:var(--bg2);color:var(--text2);border:0.5px solid var(--border)}
-.banner-success{background:var(--green-bg);color:var(--green);border:0.5px solid var(--border)}
-@media(prefers-color-scheme:dark){.banner-error{background:#450a0a;color:#fca5a5;border-color:#7f1d1d}}
-.date-section{margin-bottom:1.75rem}
-.date-heading{font-size:13px;font-weight:600;padding:.3rem 0;margin-bottom:.6rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px}
-.date-count{font-size:11px;font-weight:400;color:var(--text3)}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
-.match-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--r);padding:12px 14px}
-.match-card.live{border-color:var(--live);border-width:1.5px}
-.match-card.today{border-color:var(--blue);border-width:1.5px}
-.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
-.card-meta{font-size:11px;color:var(--text3)}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
-.badge-live{background:var(--green-bg);color:var(--green)}
-.badge-today{background:var(--blue-bg);color:var(--blue)}
-.badge-played{background:var(--bg2);color:var(--text2)}
-.badge-upcoming{background:var(--bg2);color:var(--text2)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.live-dot{width:6px;height:6px;background:var(--live);border-radius:50%;display:inline-block;animation:pulse 1.4s ease-in-out infinite}
-.teams-row{display:flex;align-items:center;gap:6px;margin-bottom:9px}
-.team-block{flex:1;min-width:0}
-.team-block.away{text-align:right}
-.flag{font-family:'Noto Color Emoji',sans-serif;font-size:26px;line-height:1;display:block;margin-bottom:3px}
+.spin{animation:spin .8s linear infinite}
+
+/* Controls */
+.cbar{background:var(--bg);border-bottom:1px solid var(--border);padding:.6rem 1rem;position:sticky;top:53px;z-index:99;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cbar-inner{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:7px}
+.crow{display:flex;gap:5px;align-items:center;flex-wrap:nowrap;min-width:max-content}
+.search{height:30px;padding:0 10px;border:1px solid var(--border2);border-radius:20px;background:var(--bg2);color:var(--text);font-size:13px;font-family:inherit;width:155px;outline:none;-webkit-appearance:none}
+.search:focus{border-color:var(--blue)}
+.pill{display:inline-flex;align-items:center;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--text2);white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pill:active,.pill.on{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+
+/* Main */
+.main{max-width:1100px;margin:0 auto;padding:1.2rem 1rem 2rem}
+
+/* Banner */
+.banner{padding:.65rem .9rem;border-radius:8px;font-size:12px;margin-bottom:1rem;display:none;align-items:center;gap:7px}
+.b-err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.b-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--border)}
+@media(prefers-color-scheme:dark){.b-err{background:#450a0a;color:#fca5a5;border-color:#7f1d1d}}
+
+/* Date sections */
+.dsec{margin-bottom:1.5rem}
+.dhead{font-size:12px;font-weight:600;padding:.3rem 0;margin-bottom:.55rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
+.dcnt{font-size:11px;font-weight:400;color:var(--text3)}
+
+/* Cards grid — 1 col on mobile, 2+ on wider */
+.cgrid{display:grid;grid-template-columns:1fr;gap:9px}
+@media(min-width:600px){.cgrid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.cgrid{grid-template-columns:repeat(3,1fr)}}
+
+/* Card */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:11px 13px}
+.card.clive{border-color:var(--live-col);border-width:1.5px}
+.card.ctoday{border-color:var(--blue);border-width:1.5px}
+.ctop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cmeta{font-size:11px;color:var(--text3)}
+
+/* Badges */
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.blive{background:var(--green-bg);color:var(--green)}
+.btoday{background:var(--blue-bg);color:var(--blue)}
+.bplayed{background:var(--bg2);color:var(--text2)}
+.bup{background:var(--bg2);color:var(--text2)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.ldot{width:6px;height:6px;background:var(--live-col);border-radius:50%;display:inline-block;flex-shrink:0;animation:pulse 1.4s ease-in-out infinite}
+
+/* Teams row */
+.trow{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.tblk{flex:1;min-width:0}
+.tblk.away{text-align:right}
+.flag{font-family:'Noto Color Emoji',sans-serif;font-size:28px;line-height:1;display:block;margin-bottom:2px}
 .flag.away{text-align:right}
-.team-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.team-rank{font-size:10px;color:var(--text3);margin-top:1px}
-.score-block{text-align:center;min-width:56px;flex-shrink:0}
-.score-nums{font-size:22px;font-weight:600;letter-spacing:-1px;white-space:nowrap}
-.score-sep{color:var(--text3);padding:0 2px}
-.score-time{font-size:12px;color:var(--text2);white-space:nowrap}
-.live-min{font-size:10px;color:var(--live);font-weight:600;margin-top:2px}
-.detail{border-top:0.5px solid var(--border);padding-top:8px;margin-top:2px}
-.detail-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:3px}
-.two-col{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
-.col-l{flex:1;min-width:0}
-.col-r{flex:1;min-width:0;text-align:right}
-.scorer-item,.star-item{font-size:10px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.65}
-.star-g{color:var(--star)}
-.no-results{text-align:center;padding:3rem 1rem;color:var(--text3)}
-.source-note{font-size:11px;color:var(--text3);margin-bottom:1rem}
-.site-footer{text-align:center;padding:2rem 1rem;font-size:11px;color:var(--text3);border-top:0.5px solid var(--border);margin-top:1rem}
-.site-footer a{color:inherit}
-@media(max-width:600px){
-  .site-header,.controls-bar{padding-left:1rem;padding-right:1rem}
-  .main{padding:1rem}
-  .cards-grid{grid-template-columns:1fr}
-  .search-input{width:140px}
-}
+.tname{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trank{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* Score */
+.sblk{text-align:center;min-width:54px;flex-shrink:0}
+.snums{font-size:22px;font-weight:700;letter-spacing:-.5px;line-height:1}
+.ssep{color:var(--text3);padding:0 2px;font-weight:400}
+.stime{font-size:11px;color:var(--text2);line-height:1.4}
+.smin{font-size:10px;color:var(--live-col);font-weight:600;margin-top:2px}
+
+/* Detail */
+.det{border-top:1px solid var(--border);padding-top:8px;margin-top:2px}
+.dlbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:3px}
+.dcols{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px}
+.dcl{flex:1;min-width:0}
+.dcr{flex:1;min-width:0;text-align:right}
+.si,.sti{font-size:10px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.7}
+.starg{color:var(--star)}
+
+.nores{text-align:center;padding:3rem 1rem;color:var(--text3)}
+footer{text-align:center;padding:1.5rem 1rem;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:.5rem}
+footer a{color:inherit}
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="site-title"><span class="title-emoji">🏆</span> FIFA World Cup 2026</div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span class="last-updated" id="ts">Loading…</span>
-      <button class="refresh-btn" onclick="doFetch()">
-        <svg id="ri" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-title">
+      <span class="hdr-emoji">&#x1F3C6;</span> FIFA World Cup 2026
+    </div>
+    <div class="hdr-right">
+      <span class="hdr-ts" id="ts">Group Stage</span>
+      <button class="btn-refresh" onclick="doFetch()">
+        <svg id="ri" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <polyline points="1 20 1 14 7 14"/>
           <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
         </svg>
         Refresh
@@ -112,422 +133,484 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg3);color:var(--
   </div>
 </header>
 
-<div class="controls-bar">
-  <div class="controls-inner">
-    <div class="controls-row">
-      <input class="search-input" type="text" id="search" placeholder="Search team…" oninput="render()">
-      <div style="display:flex;flex-wrap:wrap;gap:4px" id="sp">
-        <span class="pill active" data-s="all"      onclick="setSt(this)">All</span>
-        <span class="pill"        data-s="played"   onclick="setSt(this)">Played</span>
-        <span class="pill"        data-s="live"     onclick="setSt(this)">Live</span>
-        <span class="pill"        data-s="upcoming" onclick="setSt(this)">Upcoming</span>
+<div class="cbar">
+  <div class="cbar-inner">
+    <div class="crow">
+      <input class="search" type="search" id="srch" placeholder="Search team..." oninput="render()" autocomplete="off" autocorrect="off" spellcheck="false">
+      <div id="sp" style="display:flex;gap:5px">
+        <span class="pill on" data-s="all"      onclick="setSt(this)">All</span>
+        <span class="pill"    data-s="played"   onclick="setSt(this)">Played</span>
+        <span class="pill"    data-s="live"     onclick="setSt(this)">Live</span>
+        <span class="pill"    data-s="upcoming" onclick="setSt(this)">Upcoming</span>
       </div>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:4px" id="gp">
-      <span class="pill active" data-g="all"     onclick="setGr(this)">All groups</span>
-      <span class="pill" data-g="Group A" onclick="setGr(this)">A</span>
-      <span class="pill" data-g="Group B" onclick="setGr(this)">B</span>
-      <span class="pill" data-g="Group C" onclick="setGr(this)">C</span>
-      <span class="pill" data-g="Group D" onclick="setGr(this)">D</span>
-      <span class="pill" data-g="Group E" onclick="setGr(this)">E</span>
-      <span class="pill" data-g="Group F" onclick="setGr(this)">F</span>
-      <span class="pill" data-g="Group G" onclick="setGr(this)">G</span>
-      <span class="pill" data-g="Group H" onclick="setGr(this)">H</span>
-      <span class="pill" data-g="Group I" onclick="setGr(this)">I</span>
-      <span class="pill" data-g="Group J" onclick="setGr(this)">J</span>
-      <span class="pill" data-g="Group K" onclick="setGr(this)">K</span>
-      <span class="pill" data-g="Group L" onclick="setGr(this)">L</span>
+    <div class="crow" id="gp">
+      <span class="pill on"  data-g="all" onclick="setGr(this)">All</span>
+      <span class="pill" data-g="A" onclick="setGr(this)">A</span>
+      <span class="pill" data-g="B" onclick="setGr(this)">B</span>
+      <span class="pill" data-g="C" onclick="setGr(this)">C</span>
+      <span class="pill" data-g="D" onclick="setGr(this)">D</span>
+      <span class="pill" data-g="E" onclick="setGr(this)">E</span>
+      <span class="pill" data-g="F" onclick="setGr(this)">F</span>
+      <span class="pill" data-g="G" onclick="setGr(this)">G</span>
+      <span class="pill" data-g="H" onclick="setGr(this)">H</span>
+      <span class="pill" data-g="I" onclick="setGr(this)">I</span>
+      <span class="pill" data-g="J" onclick="setGr(this)">J</span>
+      <span class="pill" data-g="K" onclick="setGr(this)">K</span>
+      <span class="pill" data-g="L" onclick="setGr(this)">L</span>
     </div>
   </div>
 </div>
 
 <main class="main">
-  <div class="banner banner-loading" id="banner">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="bicon" style="flex-shrink:0">
-      <path d="M21 12a9 9 0 1 1-6.22-8.56"/>
-    </svg>
-    <span id="bmsg">Loading match data…</span>
-  </div>
-  <div id="output"></div>
+  <div class="banner b-err" id="banner"></div>
+  <div id="out"></div>
 </main>
 
-<footer class="site-footer">
-  Live data from <a href="https://www.football-data.org" target="_blank" rel="noopener">football-data.org</a>
-  · Refreshes every 60 s during live matches, every 5 min otherwise
+<footer>
+  Live data: <a href="https://football-data.org" target="_blank" rel="noopener">football-data.org</a>
+  &middot; Auto-refreshes every 60 s during live matches
 </footer>
 
 <script>
-// ── Config ────────────────────────────────────────────────────────────────
-const API_KEY = '98c4c0a58ddf45e79c31f391aabecfbf';
-const API_BASE = 'https://api.football-data.org/v4/competitions/WC/matches?season=2026';
-
-// Try multiple CORS proxies in order
-const PROXIES = [
-  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  u => `https://thingproxy.freeboard.io/fetch/${u}`,
-];
-
-// ── Team metadata ─────────────────────────────────────────────────────────
-const META = {
-  'Mexico':                  {rank:15,stars:['Raúl Jiménez','Hirving Lozano'],iso:'MX'},
-  'South Africa':            {rank:61,stars:['Percy Tau','Bongani Zungu'],iso:'ZA'},
-  'Korea Republic':          {rank:22,stars:['Son Heung-min','Hwang Hee-chan'],iso:'KR'},
-  'Czechia':                 {rank:44,stars:['Patrik Schick','Tomáš Souček'],iso:'CZ'},
-  'Canada':                  {rank:30,stars:['Alphonso Davies','Jonathan David'],iso:'CA'},
-  'Bosnia and Herzegovina':  {rank:62,stars:['Edin Džeko','Sead Kolašinac'],iso:'BA'},
-  'Qatar':                   {rank:56,stars:['Akram Afif','Almoez Ali'],iso:'QA'},
-  'Switzerland':             {rank:19,stars:['Granit Xhaka','Breel Embolo'],iso:'CH'},
-  'Brazil':                  {rank:5, stars:['Vinícius Júnior','Rodrygo'],iso:'BR'},
-  'Morocco':                 {rank:14,stars:['Achraf Hakimi','Hakim Ziyech'],iso:'MA'},
-  'Scotland':                {rank:39,stars:['John McGinn','Andy Robertson'],iso:'GBSCT'},
-  'Haiti':                   {rank:83,stars:['Nerlens Noel','Naomie Alexis'],iso:'HT'},
-  'United States':           {rank:11,stars:['Christian Pulisic','Folarin Balogun'],iso:'US'},
-  'Paraguay':                {rank:67,stars:['Miguel Almirón','Julio Enciso'],iso:'PY'},
-  'Australia':               {rank:23,stars:['Mathew Leckie','Mitchell Duke'],iso:'AU'},
-  'Türkiye':                 {rank:28,stars:['Hakan Çalhanoğlu','Arda Güler'],iso:'TR'},
-  'Germany':                 {rank:12,stars:['Kai Havertz','Jamal Musiala'],iso:'DE'},
-  'Curaçao':                 {rank:88,stars:['Cuco Martina','Leandro Bacuna'],iso:'CW'},
-  'Netherlands':             {rank:7, stars:['Virgil van Dijk','Cody Gakpo'],iso:'NL'},
-  'Japan':                   {rank:17,stars:['Takumi Minamino','Daichi Kamada'],iso:'JP'},
-  "Côte d'Ivoire":           {rank:33,stars:['Sébastien Haller','Amad Diallo'],iso:'CI'},
-  'Ecuador':                 {rank:43,stars:['Gonzalo Plata','Moisés Caicedo'],iso:'EC'},
-  'Sweden':                  {rank:25,stars:['Viktor Gyökeres','Alexander Isak'],iso:'SE'},
-  'Tunisia':                 {rank:51,stars:['Youssef Msakni','Hannibal Mejbri'],iso:'TN'},
-  'Spain':                   {rank:1, stars:['Pedri','Rodri'],iso:'ES'},
-  'Cabo Verde':              {rank:79,stars:['Ryan Mendes','Jovane Cabral'],iso:'CV'},
-  'Saudi Arabia':            {rank:54,stars:['Salem Al-Dawsari','Mohammed Al-Owais'],iso:'SA'},
-  'Uruguay':                 {rank:18,stars:['Darwin Núñez','Federico Valverde'],iso:'UY'},
-  'Egypt':                   {rank:36,stars:['Mohamed Salah','Mostafa Mohamed'],iso:'EG'},
-  'Belgium':                 {rank:8, stars:['Kevin De Bruyne','Romelu Lukaku'],iso:'BE'},
-  'Iran':                    {rank:20,stars:['Mehdi Taremi','Sardar Azmoun'],iso:'IR'},
-  'New Zealand':             {rank:85,stars:['Chris Wood','Clayton Lewis'],iso:'NZ'},
-  'France':                  {rank:3, stars:['Kylian Mbappé','Antoine Griezmann'],iso:'FR'},
-  'Senegal':                 {rank:16,stars:['Sadio Mané','Édouard Mendy'],iso:'SN'},
-  'Iraq':                    {rank:59,stars:['Aymen Hussein','Ahmed Yasin'],iso:'IQ'},
-  'Norway':                  {rank:26,stars:['Erling Haaland','Martin Ødegaard'],iso:'NO'},
-  'Argentina':               {rank:2, stars:['Lionel Messi','Julián Álvarez'],iso:'AR'},
-  'Algeria':                 {rank:35,stars:['Riyad Mahrez','Islam Slimani'],iso:'DZ'},
-  'Austria':                 {rank:24,stars:['Marko Arnautović','David Alaba'],iso:'AT'},
-  'Jordan':                  {rank:66,stars:['Musa Al-Taamari','Ahmad Nasser'],iso:'JO'},
-  'Portugal':                {rank:6, stars:['Cristiano Ronaldo','Bruno Fernandes'],iso:'PT'},
-  'DR Congo':                {rank:55,stars:['Yoane Wissa','Cédric Bakambu'],iso:'CD'},
-  'Uzbekistan':              {rank:69,stars:['Abbosbek Fayzullaev','Javokhir Sidiqov'],iso:'UZ'},
-  'Colombia':                {rank:13,stars:['Luis Díaz','James Rodríguez'],iso:'CO'},
-  'England':                 {rank:4, stars:['Harry Kane','Jude Bellingham'],iso:'GBENG'},
-  'Croatia':                 {rank:10,stars:['Luka Modrić','Mateo Kovačić'],iso:'HR'},
-  'Ghana':                   {rank:46,stars:['Thomas Partey','Jordan Ayew'],iso:'GH'},
-  'Panama':                  {rank:77,stars:['Rolando Blackburn','Ismael Díaz'],iso:'PA'},
-};
-
-// API name → META key (covers every known variant football-data.org uses)
-const API_ALIAS = {
-  'Korea Republic':           'Korea Republic',
-  'Republic of Korea':        'Korea Republic',
-  'South Korea':              'Korea Republic',
-  'Bosnia and Herzegovina':   'Bosnia and Herzegovina',
-  'Bosnia & Herzegovina':     'Bosnia and Herzegovina',
-  'United States':            'United States',
-  'USA':                      'United States',
-  "Côte d'Ivoire":            "Côte d'Ivoire",
-  'Ivory Coast':              "Côte d'Ivoire",
-  "Cote d'Ivoire":            "Côte d'Ivoire",
-  'Cabo Verde':               'Cabo Verde',
-  'Cape Verde':               'Cabo Verde',
-  'DR Congo':                 'DR Congo',
-  'Congo DR':                 'DR Congo',
-  'Democratic Republic of Congo': 'DR Congo',
-  'Türkiye':                  'Türkiye',
-  'Turkey':                   'Türkiye',
-  'Scotland':                 'Scotland',
-  'England':                  'England',
-};
-
-const SHORT = {
-  'Bosnia and Herzegovina':   'Bosnia & Herz.',
-  'Korea Republic':           'South Korea',
-  'United States':            'USA',
-  "Côte d'Ivoire":            'Ivory Coast',
-  'Cabo Verde':               'Cape Verde',
-};
-const sf = n => SHORT[n] || SHORT[API_ALIAS[n]] || n;
-const meta = n => {
-  const key = API_ALIAS[n] || n;
-  return META[key] || META[n] || {rank:'—',stars:[],iso:''};
-};
-
-// Flag from ISO-2
-const SPEC = {GBSCT:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',GBENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'};
-function flag(iso){
-  if(!iso) return '🏳';
-  if(SPEC[iso]) return SPEC[iso];
-  if(iso.length!==2) return '🏳';
+// ── Flag helper ────────────────────────────────────────────────────────────
+// Generates flag emoji from ISO-2 country code via Unicode regional indicators.
+// England and Scotland use pre-built tag sequences stored as escape codes
+// to avoid the invisible-character GitHub warning.
+function F(iso){
+  if(!iso) return '';
+  // England: U+1F3F4 + tag sequence g,b,e,n,g + cancel
+  if(iso==='ENG') return '\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F';
+  // Scotland: U+1F3F4 + tag sequence g,b,s,c,t + cancel
+  if(iso==='SCT') return '\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74\uDB40\uDC7F';
+  if(iso.length!==2) return '';
   const o=0x1F1E6-65;
   return String.fromCodePoint(iso.toUpperCase().charCodeAt(0)+o)+
          String.fromCodePoint(iso.toUpperCase().charCodeAt(1)+o);
 }
 
-// ── State ─────────────────────────────────────────────────────────────────
-let matches=[], activeSt='all', activeGr='all', timer=null, liveMode=false;
+// ── Master match data ──────────────────────────────────────────────────────
+// Dates are LOCAL (ET) dates, not UTC, so late-night games stay on the right day.
+// hsc/asc: goal scorer strings shown directly on the card.
+const M=[
+ // Jun 11
+ {g:'A',d:'2026-06-11',h:'Mexico',      hf:F('MX'),hr:15,hs2:['Raul Jimenez','Hirving Lozano'],
+                        a:'South Africa',af:F('ZA'),ar:61,as2:['Percy Tau','Bongani Zungu'],
+  st:'played',hs:2,as:0,hsc:["Quinones 9'","Jimenez 60'"],asc:[],t:''},
+ // Jun 12
+ {g:'A',d:'2026-06-12',h:'South Korea', hf:F('KR'),hr:22,hs2:['Son Heung-min','Hwang Hee-chan'],
+                        a:'Czechia',     af:F('CZ'),ar:44,as2:['Patrik Schick','Tomas Soucek'],
+  st:'played',hs:2,as:1,hsc:["Hwang 67'","Oh 80'"],asc:["Krejci 60'"],t:''},
+ {g:'B',d:'2026-06-12',h:'Canada',      hf:F('CA'),hr:30,hs2:['Alphonso Davies','Jonathan David'],
+                        a:'Bosnia',      af:F('BA'),ar:62,as2:['Edin Dzeko','Sead Kolasinac'],
+  st:'played',hs:1,as:1,hsc:["Larin 78'"],asc:["Lukic 21'"],t:''},
+ // Jun 13
+ {g:'D',d:'2026-06-13',h:'USA',         hf:F('US'),hr:11,hs2:['Christian Pulisic','Folarin Balogun'],
+                        a:'Paraguay',    af:F('PY'),ar:67,as2:['Miguel Almiron','Julio Enciso'],
+  st:'played',hs:4,as:1,hsc:["Pulisic 8'","Balogun 34'","Balogun 52'","Richards 74'"],asc:["Mauricio 63'"],t:''},
+ {g:'B',d:'2026-06-13',h:'Qatar',       hf:F('QA'),hr:56,hs2:['Akram Afif','Almoez Ali'],
+                        a:'Switzerland', af:F('CH'),ar:19,as2:['Granit Xhaka','Breel Embolo'],
+  st:'played',hs:1,as:1,hsc:["Afif 72'"],asc:["Muheim 90' OG"],t:''},
+ {g:'C',d:'2026-06-13',h:'Brazil',      hf:F('BR'),hr:5, hs2:['Vinicius Jr.','Rodrygo'],
+                        a:'Morocco',     af:F('MA'),ar:14,as2:['Achraf Hakimi','Hakim Ziyech'],
+  st:'played',hs:1,as:1,hsc:["Vinicius Jr. 22'"],asc:["Saibari 11'"],t:''},
+ // Jun 14
+ {g:'C',d:'2026-06-14',h:'Haiti',       hf:F('HT'),hr:83,hs2:['N. Alexis','F. Pierrot'],
+                        a:'Scotland',    af:F('SCT'),ar:39,as2:['John McGinn','Andy Robertson'],
+  st:'played',hs:0,as:1,hsc:[],asc:["McGinn 31'"],t:''},
+ {g:'D',d:'2026-06-14',h:'Australia',   hf:F('AU'),hr:23,hs2:['Mathew Leckie','Mitchell Duke'],
+                        a:'Turkey',      af:F('TR'),ar:28,as2:['Hakan Calhanoglu','Arda Guler'],
+  st:'played',hs:2,as:0,hsc:["Leckie 45'","Duke 70'"],asc:[],t:''},
+ {g:'E',d:'2026-06-14',h:'Germany',     hf:F('DE'),hr:12,hs2:['Kai Havertz','Jamal Musiala'],
+                        a:'Curacao',     af:F('CW'),ar:88,as2:['Cuco Martina','L. Bacuna'],
+  st:'played',hs:7,as:1,hsc:["Nmecha 6'","Schlotterbeck 38'","Havertz 45' P","Musiala 47'","N.Brown 68'","Undav 78'","Havertz 88'"],asc:["Bacuna 55'"],t:''},
+ {g:'F',d:'2026-06-14',h:'Netherlands', hf:F('NL'),hr:7, hs2:['Virgil van Dijk','Cody Gakpo'],
+                        a:'Japan',       af:F('JP'),ar:17,as2:['T. Minamino','Daichi Kamada'],
+  st:'played',hs:2,as:2,hsc:["Van Dijk 23'","Gakpo 55'"],asc:["Kamada 52'","Ayari 89'"],t:''},
+ // Jun 15
+ {g:'E',d:'2026-06-15',h:'Ivory Coast', hf:F('CI'),hr:33,hs2:['S. Haller','Amad Diallo'],
+                        a:'Ecuador',     af:F('EC'),ar:43,as2:['Gonzalo Plata','M. Caicedo'],
+  st:'played',hs:1,as:0,hsc:["Diallo 90'"],asc:[],t:''},
+ {g:'F',d:'2026-06-15',h:'Sweden',      hf:F('SE'),hr:25,hs2:['Viktor Gyokeres','Alexander Isak'],
+                        a:'Tunisia',     af:F('TN'),ar:51,as2:['Youssef Msakni','H. Mejbri'],
+  st:'played',hs:5,as:1,hsc:["Isak 12'","Gyokeres 33'","Ayari 51'","Ayari 67'","Svanberg 78'"],asc:["Msakni 42'"],t:''},
+ {g:'H',d:'2026-06-15',h:'Spain',       hf:F('ES'),hr:1, hs2:['Pedri','Rodri'],
+                        a:'Cape Verde',  af:F('CV'),ar:79,as2:['Ryan Mendes','Jovane Cabral'],
+  st:'played',hs:0,as:0,hsc:[],asc:[],t:''},
+ {g:'G',d:'2026-06-15',h:'Egypt',       hf:F('EG'),hr:36,hs2:['Mohamed Salah','M. Mohamed'],
+                        a:'Belgium',     af:F('BE'),ar:8, as2:['Kevin De Bruyne','R. Lukaku'],
+  st:'played',hs:1,as:1,hsc:["Salah 38'"],asc:["Lukaku 71'"],t:''},
+ {g:'H',d:'2026-06-15',h:'Saudi Arabia',hf:F('SA'),hr:54,hs2:['Salem Al-Dawsari','M. Al-Owais'],
+                        a:'Uruguay',     af:F('UY'),ar:18,as2:['Darwin Nunez','F. Valverde'],
+  st:'played',hs:1,as:1,hsc:["Al-Dawsari 58'"],asc:["Nunez 74'"],t:''},
+ // Jun 16
+ {g:'G',d:'2026-06-16',h:'Iran',        hf:F('IR'),hr:20,hs2:['Mehdi Taremi','Sardar Azmoun'],
+                        a:'New Zealand', af:F('NZ'),ar:85,as2:['Chris Wood','Clayton Lewis'],
+  st:'played',hs:2,as:2,hsc:["Rezaeian 30'","Taremi 79'"],asc:["Just 44'","Just 66'"],t:''},
+ {g:'I',d:'2026-06-16',h:'France',      hf:F('FR'),hr:3, hs2:['Kylian Mbappe','A. Griezmann'],
+                        a:'Senegal',     af:F('SN'),ar:16,as2:['Sadio Mane','Edouard Mendy'],
+  st:'played',hs:3,as:1,hsc:["Mbappe 66'","Barcola 82'","Mbappe 96'"],asc:["Mbaye 95'"],t:''},
+ {g:'I',d:'2026-06-16',h:'Iraq',        hf:F('IQ'),hr:59,hs2:['Aymen Hussein','Ahmed Yasin'],
+                        a:'Norway',      af:F('NO'),ar:26,as2:['Erling Haaland','M. Odegaard'],
+  st:'played',hs:1,as:4,hsc:["Jasim 62'"],asc:["Haaland 18'","Haaland 55'","Odegaard 70'","Metcalfe 85'"],t:''},
+ {g:'J',d:'2026-06-16',h:'Argentina',   hf:F('AR'),hr:2, hs2:['Lionel Messi','Julian Alvarez'],
+                        a:'Algeria',     af:F('DZ'),ar:35,as2:['Riyad Mahrez','Islam Slimani'],
+  st:'played',hs:3,as:0,hsc:["Messi 23'","Messi 56'","Messi 78'"],asc:[],t:''},
+ {g:'J',d:'2026-06-16',h:'Austria',     hf:F('AT'),hr:24,hs2:['M. Arnautovic','David Alaba'],
+                        a:'Jordan',      af:F('JO'),ar:66,as2:['Musa Al-Taamari','A. Nasser'],
+  st:'played',hs:3,as:1,hsc:["Schmid 21'","Al-Arab 76' OG","Arnautovic 90' P"],asc:["Olwan 50'"],t:''},
+ // Jun 17
+ {g:'K',d:'2026-06-17',h:'Portugal',    hf:F('PT'),hr:6, hs2:['C. Ronaldo','Bruno Fernandes'],
+                        a:'DR Congo',    af:F('CD'),ar:55,as2:['Yoane Wissa','C. Bakambu'],
+  st:'played',hs:1,as:1,hsc:["Neves 6'"],asc:["Wissa 45'"],t:''},
+ {g:'K',d:'2026-06-17',h:'Uzbekistan',  hf:F('UZ'),hr:69,hs2:['A. Fayzullaev','J. Sidiqov'],
+                        a:'Colombia',    af:F('CO'),ar:13,as2:['Luis Diaz','James Rodriguez'],
+  st:'played',hs:1,as:3,hsc:["Fayzullaev 60'"],asc:["Munoz 40'","Diaz 65'","Campaz 90'"],t:''},
+ {g:'L',d:'2026-06-17',h:'England',     hf:F('ENG'),hr:4,hs2:['Harry Kane','Jude Bellingham'],
+                        a:'Croatia',     af:F('HR'),ar:10,as2:['Luka Modric','Mateo Kovacic'],
+  st:'played',hs:4,as:2,hsc:["Kane 12' P","Kane 42'","Bellingham 47'","Rashford 85'"],asc:["Baturina 36'","Musa 45'"],t:''},
+ {g:'L',d:'2026-06-17',h:'Ghana',       hf:F('GH'),hr:46,hs2:['Thomas Partey','Jordan Ayew'],
+                        a:'Panama',      af:F('PA'),ar:77,as2:['R. Blackburn','Ismael Diaz'],
+  st:'played',hs:1,as:0,hsc:["Yirenkyi 90'"],asc:[],t:''},
+ // Jun 18 — TODAY
+ {g:'A',d:'2026-06-18',h:'Czechia',     hf:F('CZ'),hr:44,hs2:['Patrik Schick','Tomas Soucek'],
+                        a:'South Africa',af:F('ZA'),ar:61,as2:['Percy Tau','Bongani Zungu'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'12:00 PM ET'},
+ {g:'B',d:'2026-06-18',h:'Switzerland', hf:F('CH'),hr:19,hs2:['Granit Xhaka','Breel Embolo'],
+                        a:'Bosnia',      af:F('BA'),ar:62,as2:['Edin Dzeko','Sead Kolasinac'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'B',d:'2026-06-18',h:'Canada',      hf:F('CA'),hr:30,hs2:['Alphonso Davies','Jonathan David'],
+                        a:'Qatar',       af:F('QA'),ar:56,as2:['Akram Afif','Almoez Ali'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'A',d:'2026-06-18',h:'Mexico',      hf:F('MX'),hr:15,hs2:['Raul Jimenez','Hirving Lozano'],
+                        a:'South Korea', af:F('KR'),ar:22,as2:['Son Heung-min','Hwang Hee-chan'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ // Jun 19
+ {g:'D',d:'2026-06-19',h:'USA',         hf:F('US'),hr:11,hs2:['Christian Pulisic','F. Balogun'],
+                        a:'Australia',   af:F('AU'),ar:23,as2:['Mathew Leckie','Mitchell Duke'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'C',d:'2026-06-19',h:'Scotland',    hf:F('SCT'),hr:39,hs2:['John McGinn','Andy Robertson'],
+                        a:'Morocco',     af:F('MA'),ar:14,as2:['Achraf Hakimi','Hakim Ziyech'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'C',d:'2026-06-19',h:'Brazil',      hf:F('BR'),hr:5, hs2:['Vinicius Jr.','Rodrygo'],
+                        a:'Haiti',       af:F('HT'),ar:83,as2:['N. Alexis','F. Pierrot'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ {g:'D',d:'2026-06-19',h:'Turkey',      hf:F('TR'),hr:28,hs2:['H. Calhanoglu','Arda Guler'],
+                        a:'Paraguay',    af:F('PY'),ar:67,as2:['Miguel Almiron','Julio Enciso'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'12:00 AM ET'},
+ // Jun 20
+ {g:'F',d:'2026-06-20',h:'Tunisia',     hf:F('TN'),hr:51,hs2:['Youssef Msakni','H. Mejbri'],
+                        a:'Japan',       af:F('JP'),ar:17,as2:['T. Minamino','Daichi Kamada'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'12:00 PM ET'},
+ {g:'E',d:'2026-06-20',h:'Germany',     hf:F('DE'),hr:12,hs2:['Kai Havertz','Jamal Musiala'],
+                        a:'Ivory Coast', af:F('CI'),ar:33,as2:['S. Haller','Amad Diallo'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'F',d:'2026-06-20',h:'Netherlands', hf:F('NL'),hr:7, hs2:['Virgil van Dijk','Cody Gakpo'],
+                        a:'Sweden',      af:F('SE'),ar:25,as2:['Viktor Gyokeres','Alexander Isak'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ // Jun 21
+ {g:'H',d:'2026-06-21',h:'Spain',       hf:F('ES'),hr:1, hs2:['Pedri','Rodri'],
+                        a:'Saudi Arabia',af:F('SA'),ar:54,as2:['Salem Al-Dawsari','M. Al-Owais'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'12:00 PM ET'},
+ {g:'G',d:'2026-06-21',h:'Belgium',     hf:F('BE'),hr:8, hs2:['Kevin De Bruyne','R. Lukaku'],
+                        a:'Iran',        af:F('IR'),ar:20,as2:['Mehdi Taremi','Sardar Azmoun'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'E',d:'2026-06-21',h:'Ecuador',     hf:F('EC'),hr:43,hs2:['Gonzalo Plata','M. Caicedo'],
+                        a:'Curacao',     af:F('CW'),ar:88,as2:['Cuco Martina','L. Bacuna'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'H',d:'2026-06-21',h:'Uruguay',     hf:F('UY'),hr:18,hs2:['Darwin Nunez','F. Valverde'],
+                        a:'Cape Verde',  af:F('CV'),ar:79,as2:['Ryan Mendes','Jovane Cabral'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'G',d:'2026-06-21',h:'New Zealand', hf:F('NZ'),hr:85,hs2:['Chris Wood','Clayton Lewis'],
+                        a:'Egypt',       af:F('EG'),ar:36,as2:['Mohamed Salah','M. Mohamed'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ // Jun 22
+ {g:'J',d:'2026-06-22',h:'Argentina',   hf:F('AR'),hr:2, hs2:['Lionel Messi','Julian Alvarez'],
+                        a:'Austria',     af:F('AT'),ar:24,as2:['M. Arnautovic','David Alaba'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'1:00 PM ET'},
+ {g:'I',d:'2026-06-22',h:'France',      hf:F('FR'),hr:3, hs2:['Kylian Mbappe','A. Griezmann'],
+                        a:'Iraq',        af:F('IQ'),ar:59,as2:['Aymen Hussein','Ahmed Yasin'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'5:00 PM ET'},
+ {g:'I',d:'2026-06-22',h:'Norway',      hf:F('NO'),hr:26,hs2:['Erling Haaland','M. Odegaard'],
+                        a:'Senegal',     af:F('SN'),ar:16,as2:['Sadio Mane','Edouard Mendy'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'8:00 PM ET'},
+ {g:'J',d:'2026-06-22',h:'Jordan',      hf:F('JO'),hr:66,hs2:['Musa Al-Taamari','A. Nasser'],
+                        a:'Algeria',     af:F('DZ'),ar:35,as2:['Riyad Mahrez','Islam Slimani'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'11:00 PM ET'},
+ // Jun 23
+ {g:'K',d:'2026-06-23',h:'Portugal',    hf:F('PT'),hr:6, hs2:['C. Ronaldo','Bruno Fernandes'],
+                        a:'Uzbekistan',  af:F('UZ'),ar:69,as2:['A. Fayzullaev','J. Sidiqov'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'1:00 PM ET'},
+ {g:'L',d:'2026-06-23',h:'England',     hf:F('ENG'),hr:4,hs2:['Harry Kane','Jude Bellingham'],
+                        a:'Ghana',       af:F('GH'),ar:46,as2:['Thomas Partey','Jordan Ayew'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'4:00 PM ET'},
+ {g:'L',d:'2026-06-23',h:'Panama',      hf:F('PA'),hr:77,hs2:['R. Blackburn','Ismael Diaz'],
+                        a:'Croatia',     af:F('HR'),ar:10,as2:['Luka Modric','Mateo Kovacic'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'7:00 PM ET'},
+ {g:'K',d:'2026-06-23',h:'Colombia',    hf:F('CO'),hr:13,hs2:['Luis Diaz','James Rodriguez'],
+                        a:'DR Congo',    af:F('CD'),ar:55,as2:['Yoane Wissa','C. Bakambu'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'10:00 PM ET'},
+ // Jun 24
+ {g:'B',d:'2026-06-24',h:'Switzerland', hf:F('CH'),hr:19,hs2:['Granit Xhaka','Breel Embolo'],
+                        a:'Canada',      af:F('CA'),ar:30,as2:['Alphonso Davies','Jonathan David'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'B',d:'2026-06-24',h:'Bosnia',      hf:F('BA'),hr:62,hs2:['Edin Dzeko','Sead Kolasinac'],
+                        a:'Qatar',       af:F('QA'),ar:56,as2:['Akram Afif','Almoez Ali'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'A',d:'2026-06-24',h:'South Africa',hf:F('ZA'),hr:61,hs2:['Percy Tau','Bongani Zungu'],
+                        a:'South Korea', af:F('KR'),ar:22,as2:['Son Heung-min','Hwang Hee-chan'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ {g:'A',d:'2026-06-24',h:'Czechia',     hf:F('CZ'),hr:44,hs2:['Patrik Schick','Tomas Soucek'],
+                        a:'Mexico',      af:F('MX'),ar:15,as2:['Raul Jimenez','Hirving Lozano'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ // Jun 25
+ {g:'C',d:'2026-06-25',h:'Morocco',     hf:F('MA'),hr:14,hs2:['Achraf Hakimi','Hakim Ziyech'],
+                        a:'Haiti',       af:F('HT'),ar:83,as2:['N. Alexis','F. Pierrot'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'C',d:'2026-06-25',h:'Scotland',    hf:F('SCT'),hr:39,hs2:['John McGinn','Andy Robertson'],
+                        a:'Brazil',      af:F('BR'),ar:5, as2:['Vinicius Jr.','Rodrygo'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'D',d:'2026-06-25',h:'Paraguay',    hf:F('PY'),hr:67,hs2:['Miguel Almiron','Julio Enciso'],
+                        a:'Australia',   af:F('AU'),ar:23,as2:['Mathew Leckie','Mitchell Duke'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'D',d:'2026-06-25',h:'USA',         hf:F('US'),hr:11,hs2:['Christian Pulisic','F. Balogun'],
+                        a:'Turkey',      af:F('TR'),ar:28,as2:['H. Calhanoglu','Arda Guler'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'10:00 PM ET'},
+ // Jun 26
+ {g:'I',d:'2026-06-26',h:'Norway',      hf:F('NO'),hr:26,hs2:['Erling Haaland','M. Odegaard'],
+                        a:'France',      af:F('FR'),ar:3, as2:['Kylian Mbappe','A. Griezmann'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'I',d:'2026-06-26',h:'Senegal',     hf:F('SN'),hr:16,hs2:['Sadio Mane','Edouard Mendy'],
+                        a:'Iraq',        af:F('IQ'),ar:59,as2:['Aymen Hussein','Ahmed Yasin'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'3:00 PM ET'},
+ {g:'E',d:'2026-06-26',h:'Germany',     hf:F('DE'),hr:12,hs2:['Kai Havertz','Jamal Musiala'],
+                        a:'Ecuador',     af:F('EC'),ar:43,as2:['Gonzalo Plata','M. Caicedo'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'E',d:'2026-06-26',h:'Curacao',     hf:F('CW'),hr:88,hs2:['Cuco Martina','L. Bacuna'],
+                        a:'Ivory Coast', af:F('CI'),ar:33,as2:['S. Haller','Amad Diallo'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'6:00 PM ET'},
+ {g:'H',d:'2026-06-26',h:'Cape Verde',  hf:F('CV'),hr:79,hs2:['Ryan Mendes','Jovane Cabral'],
+                        a:'Saudi Arabia',af:F('SA'),ar:54,as2:['Salem Al-Dawsari','M. Al-Owais'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'8:00 PM ET'},
+ {g:'H',d:'2026-06-26',h:'Uruguay',     hf:F('UY'),hr:18,hs2:['Darwin Nunez','F. Valverde'],
+                        a:'Spain',       af:F('ES'),ar:1, as2:['Pedri','Rodri'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'8:00 PM ET'},
+ {g:'F',d:'2026-06-26',h:'Japan',       hf:F('JP'),hr:17,hs2:['T. Minamino','Daichi Kamada'],
+                        a:'Sweden',      af:F('SE'),ar:25,as2:['Viktor Gyokeres','Alexander Isak'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ {g:'F',d:'2026-06-26',h:'Tunisia',     hf:F('TN'),hr:51,hs2:['Youssef Msakni','H. Mejbri'],
+                        a:'Netherlands', af:F('NL'),ar:7, as2:['Virgil van Dijk','Cody Gakpo'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'9:00 PM ET'},
+ {g:'G',d:'2026-06-26',h:'Iran',        hf:F('IR'),hr:20,hs2:['Mehdi Taremi','Sardar Azmoun'],
+                        a:'Egypt',       af:F('EG'),ar:36,as2:['Mohamed Salah','M. Mohamed'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'11:00 PM ET'},
+ {g:'G',d:'2026-06-26',h:'New Zealand', hf:F('NZ'),hr:85,hs2:['Chris Wood','Clayton Lewis'],
+                        a:'Belgium',     af:F('BE'),ar:8, as2:['Kevin De Bruyne','R. Lukaku'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'11:00 PM ET'},
+ // Jun 27
+ {g:'K',d:'2026-06-27',h:'Colombia',    hf:F('CO'),hr:13,hs2:['Luis Diaz','James Rodriguez'],
+                        a:'Portugal',    af:F('PT'),ar:6, as2:['C. Ronaldo','Bruno Fernandes'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'7:30 PM ET'},
+ {g:'K',d:'2026-06-27',h:'DR Congo',    hf:F('CD'),hr:55,hs2:['Yoane Wissa','C. Bakambu'],
+                        a:'Uzbekistan',  af:F('UZ'),ar:69,as2:['A. Fayzullaev','J. Sidiqov'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'7:30 PM ET'},
+ {g:'L',d:'2026-06-27',h:'Panama',      hf:F('PA'),hr:77,hs2:['R. Blackburn','Ismael Diaz'],
+                        a:'England',     af:F('ENG'),ar:4,as2:['Harry Kane','Jude Bellingham'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'5:00 PM ET'},
+ {g:'L',d:'2026-06-27',h:'Croatia',     hf:F('HR'),hr:10,hs2:['Luka Modric','Mateo Kovacic'],
+                        a:'Ghana',       af:F('GH'),ar:46,as2:['Thomas Partey','Jordan Ayew'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'5:00 PM ET'},
+ {g:'J',d:'2026-06-27',h:'Jordan',      hf:F('JO'),hr:66,hs2:['Musa Al-Taamari','A. Nasser'],
+                        a:'Argentina',   af:F('AR'),ar:2, as2:['Lionel Messi','Julian Alvarez'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'10:00 PM ET'},
+ {g:'J',d:'2026-06-27',h:'Algeria',     hf:F('DZ'),hr:35,hs2:['Riyad Mahrez','Islam Slimani'],
+                        a:'Austria',     af:F('AT'),ar:24,as2:['M. Arnautovic','David Alaba'],
+  st:'upcoming',hs:null,as:null,hsc:[],asc:[],t:'10:00 PM ET'},
+];
 
-// ── Fetch with proxy fallback ─────────────────────────────────────────────
-async function tryFetch(proxyFn){
-  const url = proxyFn(API_BASE);
-  const res = await fetch(url, {
-    headers:{'X-Auth-Token': API_KEY},
-    signal: AbortSignal.timeout(8000)
-  });
-  if(!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
-  if(!data.matches) throw new Error('No matches field in response');
-  return data.matches;
+// ── Live API overlay ───────────────────────────────────────────────────────
+const KEY='98c4c0a58ddf45e79c31f391aabecfbf';
+const APIURL='https://api.football-data.org/v4/competitions/WC/matches?season=2026';
+const PROXIES=[
+  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u=>`https://thingproxy.freeboard.io/fetch/${u}`,
+];
+
+// Normalize API team names to match our display names
+const NMAP={
+  'Korea Republic':'South Korea','Republic of Korea':'South Korea',
+  'Bosnia and Herzegovina':'Bosnia','Bosnia & Herzegovina':'Bosnia',
+  'United States':'USA',
+  "Cote d'Ivoire":'Ivory Coast',"Côte d'Ivoire":'Ivory Coast',
+  'Cabo Verde':'Cape Verde',
+  'Congo DR':'DR Congo','Democratic Republic of Congo':'DR Congo',
+  'Turkiye':'Turkey','Türkiye':'Turkey',
+};
+const norm=n=>NMAP[n]||n;
+
+async function tryP(fn){
+  const r=await fetch(fn(APIURL),{headers:{'X-Auth-Token':KEY},signal:AbortSignal.timeout(8000)});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const d=await r.json();
+  if(!Array.isArray(d.matches)) throw new Error('bad');
+  return d.matches;
 }
 
+let rtimer=null;
 async function doFetch(){
-  setBanner('loading','Loading live data…');
-  document.getElementById('ri').classList.add('spinning');
-
-  let lastErr = '';
-  for(const proxy of PROXIES){
-    try{
-      const m = await tryFetch(proxy);
-      matches = m;
-      liveMode = m.some(x=>x.status==='IN_PLAY'||x.status==='PAUSED'||x.status==='HALFTIME');
-      setBanner('success', `Live data loaded · ${liveMode?'Refreshing every 60 s':'Refreshing every 5 min'}`);
-      document.getElementById('ts').textContent = 'Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-      render();
-      scheduleRefresh();
-      document.getElementById('ri').classList.remove('spinning');
-      return;
-    } catch(e){ lastErr=e.message; }
-  }
-
-  // All proxies failed — show static data
-  setBanner('error','Live scores unavailable ('+lastErr+'). Showing last known results.');
-  document.getElementById('ts').textContent = 'Live data unavailable';
-  document.getElementById('ri').classList.remove('spinning');
-  loadStatic();
-  scheduleRefresh();
-}
-
-function scheduleRefresh(){
-  clearTimeout(timer);
-  timer = setTimeout(doFetch, liveMode ? 60000 : 300000);
-}
-
-function setBanner(type, msg){
-  const b=document.getElementById('banner');
-  const i=document.getElementById('bicon');
-  b.style.display='flex';
-  b.className='banner banner-'+type;
-  document.getElementById('bmsg').textContent=msg;
-  if(type==='loading') i.style.animation='spin 1s linear infinite';
-  else{ i.style.animation=''; }
-  if(type==='success') setTimeout(()=>{ b.style.display='none'; }, 4000);
-}
-
-// ── Static fallback data ──────────────────────────────────────────────────
-// Full verified results through June 18 2026
-function loadStatic(){
-  matches = [
-    {group:'Group A',utcDate:'2026-06-11T17:00:00Z',status:'FINISHED',homeTeam:{name:'Mexico'},awayTeam:{name:'South Africa'},score:{fullTime:{home:2,away:0}},goals:[{team:{name:'Mexico'},scorer:{name:'Julián Quiñones'},minute:9},{team:{name:'Mexico'},scorer:{name:'Raúl Jiménez'},minute:60}]},
-    {group:'Group A',utcDate:'2026-06-12T00:00:00Z',status:'FINISHED',homeTeam:{name:'Korea Republic'},awayTeam:{name:'Czechia'},score:{fullTime:{home:2,away:1}},goals:[{team:{name:'Czechia'},scorer:{name:'Ladislav Krejčí'},minute:60},{team:{name:'Korea Republic'},scorer:{name:'In-Beom Hwang'},minute:67},{team:{name:'Korea Republic'},scorer:{name:'Oh Hyeon-gyu'},minute:80}]},
-    {group:'Group B',utcDate:'2026-06-12T22:00:00Z',status:'FINISHED',homeTeam:{name:'Canada'},awayTeam:{name:'Bosnia and Herzegovina'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Bosnia and Herzegovina'},scorer:{name:'Jovo Lukić'},minute:21},{team:{name:'Canada'},scorer:{name:'Cyle Larin'},minute:78}]},
-    {group:'Group D',utcDate:'2026-06-13T01:00:00Z',status:'FINISHED',homeTeam:{name:'United States'},awayTeam:{name:'Paraguay'},score:{fullTime:{home:4,away:1}},goals:[{team:{name:'United States'},scorer:{name:'Christian Pulisic'},minute:8},{team:{name:'United States'},scorer:{name:'Folarin Balogun'},minute:34},{team:{name:'United States'},scorer:{name:'Folarin Balogun'},minute:52},{team:{name:'Paraguay'},scorer:{name:'Julio Enciso'},minute:63},{team:{name:'United States'},scorer:{name:'Chris Richards'},minute:74}]},
-    {group:'Group B',utcDate:'2026-06-13T22:00:00Z',status:'FINISHED',homeTeam:{name:'Qatar'},awayTeam:{name:'Switzerland'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Qatar'},scorer:{name:'Akram Afif'},minute:72},{team:{name:'Switzerland'},scorer:{name:'Miro Muheim'},minute:90}]},
-    {group:'Group C',utcDate:'2026-06-13T23:00:00Z',status:'FINISHED',homeTeam:{name:'Brazil'},awayTeam:{name:'Morocco'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Morocco'},scorer:{name:'Ismael Saibari'},minute:11},{team:{name:'Brazil'},scorer:{name:'Vinícius Júnior'},minute:22}]},
-    {group:'Group C',utcDate:'2026-06-14T01:00:00Z',status:'FINISHED',homeTeam:{name:'Haiti'},awayTeam:{name:'Scotland'},score:{fullTime:{home:0,away:1}},goals:[{team:{name:'Scotland'},scorer:{name:'John McGinn'},minute:31}]},
-    {group:'Group D',utcDate:'2026-06-14T22:00:00Z',status:'FINISHED',homeTeam:{name:'Australia'},awayTeam:{name:'Türkiye'},score:{fullTime:{home:2,away:0}},goals:[{team:{name:'Australia'},scorer:{name:'Mathew Leckie'},minute:45},{team:{name:'Australia'},scorer:{name:'Mitchell Duke'},minute:70}]},
-    {group:'Group E',utcDate:'2026-06-14T23:00:00Z',status:'FINISHED',homeTeam:{name:'Germany'},awayTeam:{name:'Curaçao'},score:{fullTime:{home:7,away:1}},goals:[{team:{name:'Germany'},scorer:{name:'Felix Nmecha'},minute:6},{team:{name:'Germany'},scorer:{name:'Nico Schlotterbeck'},minute:38},{team:{name:'Germany'},scorer:{name:'Kai Havertz'},minute:45},{team:{name:'Germany'},scorer:{name:'Jamal Musiala'},minute:47},{team:{name:'Curaçao'},scorer:{name:'Leandro Bacuna'},minute:55},{team:{name:'Germany'},scorer:{name:'Nathaniel Brown'},minute:68},{team:{name:'Germany'},scorer:{name:'Deniz Undav'},minute:78},{team:{name:'Germany'},scorer:{name:'Kai Havertz'},minute:88}]},
-    {group:'Group F',utcDate:'2026-06-14T22:00:00Z',status:'FINISHED',homeTeam:{name:'Netherlands'},awayTeam:{name:'Japan'},score:{fullTime:{home:2,away:2}},goals:[{team:{name:'Netherlands'},scorer:{name:'Virgil van Dijk'},minute:23},{team:{name:'Japan'},scorer:{name:'Daichi Kamada'},minute:52},{team:{name:'Netherlands'},scorer:{name:'Cody Gakpo'},minute:55},{team:{name:'Japan'},scorer:{name:'Yasin Ayari'},minute:89}]},
-    {group:'Group E',utcDate:'2026-06-15T22:00:00Z',status:'FINISHED',homeTeam:{name:"Côte d'Ivoire"},awayTeam:{name:'Ecuador'},score:{fullTime:{home:1,away:0}},goals:[{team:{name:"Côte d'Ivoire"},scorer:{name:'Amad Diallo'},minute:90}]},
-    {group:'Group F',utcDate:'2026-06-15T04:00:00Z',status:'FINISHED',homeTeam:{name:'Sweden'},awayTeam:{name:'Tunisia'},score:{fullTime:{home:5,away:1}},goals:[{team:{name:'Sweden'},scorer:{name:'Alexander Isak'},minute:12},{team:{name:'Sweden'},scorer:{name:'Viktor Gyökeres'},minute:33},{team:{name:'Tunisia'},scorer:{name:'Youssef Msakni'},minute:42},{team:{name:'Sweden'},scorer:{name:'Yasin Ayari'},minute:51},{team:{name:'Sweden'},scorer:{name:'Yasin Ayari'},minute:67},{team:{name:'Sweden'},scorer:{name:'Mattias Svanberg'},minute:78}]},
-    {group:'Group H',utcDate:'2026-06-15T19:00:00Z',status:'FINISHED',homeTeam:{name:'Spain'},awayTeam:{name:'Cabo Verde'},score:{fullTime:{home:0,away:0}},goals:[]},
-    {group:'Group G',utcDate:'2026-06-15T22:00:00Z',status:'FINISHED',homeTeam:{name:'Egypt'},awayTeam:{name:'Belgium'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Egypt'},scorer:{name:'Mohamed Salah'},minute:38},{team:{name:'Belgium'},scorer:{name:'Romelu Lukaku'},minute:71}]},
-    {group:'Group H',utcDate:'2026-06-15T22:00:00Z',status:'FINISHED',homeTeam:{name:'Saudi Arabia'},awayTeam:{name:'Uruguay'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Saudi Arabia'},scorer:{name:'Salem Al-Dawsari'},minute:58},{team:{name:'Uruguay'},scorer:{name:'Darwin Núñez'},minute:74}]},
-    {group:'Group G',utcDate:'2026-06-16T01:00:00Z',status:'FINISHED',homeTeam:{name:'Iran'},awayTeam:{name:'New Zealand'},score:{fullTime:{home:2,away:2}},goals:[{team:{name:'New Zealand'},scorer:{name:'Elijah Just'},minute:44},{team:{name:'Iran'},scorer:{name:'Ramin Rezaeian'},minute:30},{team:{name:'New Zealand'},scorer:{name:'Elijah Just'},minute:66},{team:{name:'Iran'},scorer:{name:'Mehdi Taremi'},minute:79}]},
-    {group:'Group I',utcDate:'2026-06-16T20:00:00Z',status:'FINISHED',homeTeam:{name:'France'},awayTeam:{name:'Senegal'},score:{fullTime:{home:3,away:1}},goals:[{team:{name:'France'},scorer:{name:'Kylian Mbappé'},minute:66},{team:{name:'France'},scorer:{name:'Bradley Barcola'},minute:82},{team:{name:'Senegal'},scorer:{name:'Ibrahim Mbaye'},minute:95},{team:{name:'France'},scorer:{name:'Kylian Mbappé'},minute:96}]},
-    {group:'Group I',utcDate:'2026-06-16T23:00:00Z',status:'FINISHED',homeTeam:{name:'Iraq'},awayTeam:{name:'Norway'},score:{fullTime:{home:1,away:4}},goals:[{team:{name:'Norway'},scorer:{name:'Erling Haaland'},minute:18},{team:{name:'Norway'},scorer:{name:'Erling Haaland'},minute:55},{team:{name:'Iraq'},scorer:{name:'Ali Jasim'},minute:62},{team:{name:'Norway'},scorer:{name:'Martin Ødegaard'},minute:70},{team:{name:'Norway'},scorer:{name:'Connor Metcalfe'},minute:85}]},
-    {group:'Group J',utcDate:'2026-06-16T20:00:00Z',status:'FINISHED',homeTeam:{name:'Argentina'},awayTeam:{name:'Algeria'},score:{fullTime:{home:3,away:0}},goals:[{team:{name:'Argentina'},scorer:{name:'Lionel Messi'},minute:23},{team:{name:'Argentina'},scorer:{name:'Lionel Messi'},minute:56},{team:{name:'Argentina'},scorer:{name:'Lionel Messi'},minute:78}]},
-    {group:'Group J',utcDate:'2026-06-16T02:00:00Z',status:'FINISHED',homeTeam:{name:'Austria'},awayTeam:{name:'Jordan'},score:{fullTime:{home:3,away:1}},goals:[{team:{name:'Austria'},scorer:{name:'Romano Schmid'},minute:21},{team:{name:'Jordan'},scorer:{name:'Ahmad Olwan'},minute:50},{team:{name:'Austria'},scorer:{name:'Mahmoud Al-Arab'},minute:76},{team:{name:'Austria'},scorer:{name:'Marko Arnautović'},minute:90}]},
-    {group:'Group K',utcDate:'2026-06-17T18:00:00Z',status:'FINISHED',homeTeam:{name:'Portugal'},awayTeam:{name:'DR Congo'},score:{fullTime:{home:1,away:1}},goals:[{team:{name:'Portugal'},scorer:{name:'João Neves'},minute:6},{team:{name:'DR Congo'},scorer:{name:'Yoane Wissa'},minute:45}]},
-    {group:'Group K',utcDate:'2026-06-17T02:00:00Z',status:'FINISHED',homeTeam:{name:'Uzbekistan'},awayTeam:{name:'Colombia'},score:{fullTime:{home:1,away:3}},goals:[{team:{name:'Colombia'},scorer:{name:'Daniel Muñoz'},minute:40},{team:{name:'Uzbekistan'},scorer:{name:'Abbosbek Fayzullaev'},minute:60},{team:{name:'Colombia'},scorer:{name:'Luis Díaz'},minute:65},{team:{name:'Colombia'},scorer:{name:'Jáminton Campaz'},minute:90}]},
-    {group:'Group L',utcDate:'2026-06-17T21:00:00Z',status:'FINISHED',homeTeam:{name:'England'},awayTeam:{name:'Croatia'},score:{fullTime:{home:4,away:2}},goals:[{team:{name:'England'},scorer:{name:'Harry Kane'},minute:12},{team:{name:'Croatia'},scorer:{name:'Martin Baturina'},minute:36},{team:{name:'England'},scorer:{name:'Harry Kane'},minute:42},{team:{name:'Croatia'},scorer:{name:'Petar Musa'},minute:45},{team:{name:'England'},scorer:{name:'Jude Bellingham'},minute:47},{team:{name:'England'},scorer:{name:'Marcus Rashford'},minute:85}]},
-    {group:'Group L',utcDate:'2026-06-18T00:00:00Z',status:'FINISHED',homeTeam:{name:'Ghana'},awayTeam:{name:'Panama'},score:{fullTime:{home:1,away:0}},goals:[{team:{name:'Ghana'},scorer:{name:'Caleb Yirenkyi'},minute:95}]},
-    // Matchday 2 upcoming/scheduled
-    {group:'Group A',utcDate:'2026-06-18T16:00:00Z',status:'SCHEDULED',homeTeam:{name:'Czechia'},awayTeam:{name:'South Africa'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group B',utcDate:'2026-06-18T19:00:00Z',status:'SCHEDULED',homeTeam:{name:'Switzerland'},awayTeam:{name:'Bosnia and Herzegovina'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group B',utcDate:'2026-06-18T22:00:00Z',status:'SCHEDULED',homeTeam:{name:'Canada'},awayTeam:{name:'Qatar'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group A',utcDate:'2026-06-19T01:00:00Z',status:'SCHEDULED',homeTeam:{name:'Mexico'},awayTeam:{name:'Korea Republic'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group C',utcDate:'2026-06-19T22:00:00Z',status:'SCHEDULED',homeTeam:{name:'Scotland'},awayTeam:{name:'Morocco'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group C',utcDate:'2026-06-20T01:00:00Z',status:'SCHEDULED',homeTeam:{name:'Brazil'},awayTeam:{name:'Haiti'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group D',utcDate:'2026-06-19T19:00:00Z',status:'SCHEDULED',homeTeam:{name:'United States'},awayTeam:{name:'Australia'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group D',utcDate:'2026-06-20T04:00:00Z',status:'SCHEDULED',homeTeam:{name:'Türkiye'},awayTeam:{name:'Paraguay'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group E',utcDate:'2026-06-20T22:00:00Z',status:'SCHEDULED',homeTeam:{name:'Germany'},awayTeam:{name:"Côte d'Ivoire"},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group E',utcDate:'2026-06-21T22:00:00Z',status:'SCHEDULED',homeTeam:{name:'Ecuador'},awayTeam:{name:'Curaçao'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group F',utcDate:'2026-06-20T16:00:00Z',status:'SCHEDULED',homeTeam:{name:'Tunisia'},awayTeam:{name:'Japan'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group F',utcDate:'2026-06-21T01:00:00Z',status:'SCHEDULED',homeTeam:{name:'Netherlands'},awayTeam:{name:'Sweden'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group G',utcDate:'2026-06-21T19:00:00Z',status:'SCHEDULED',homeTeam:{name:'Belgium'},awayTeam:{name:'Iran'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group G',utcDate:'2026-06-22T01:00:00Z',status:'SCHEDULED',homeTeam:{name:'New Zealand'},awayTeam:{name:'Egypt'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group H',utcDate:'2026-06-21T16:00:00Z',status:'SCHEDULED',homeTeam:{name:'Spain'},awayTeam:{name:'Saudi Arabia'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group H',utcDate:'2026-06-21T22:00:00Z',status:'SCHEDULED',homeTeam:{name:'Uruguay'},awayTeam:{name:'Cabo Verde'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group I',utcDate:'2026-06-22T21:00:00Z',status:'SCHEDULED',homeTeam:{name:'France'},awayTeam:{name:'Iraq'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group I',utcDate:'2026-06-23T00:00:00Z',status:'SCHEDULED',homeTeam:{name:'Norway'},awayTeam:{name:'Senegal'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group J',utcDate:'2026-06-22T17:00:00Z',status:'SCHEDULED',homeTeam:{name:'Argentina'},awayTeam:{name:'Austria'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group J',utcDate:'2026-06-23T03:00:00Z',status:'SCHEDULED',homeTeam:{name:'Jordan'},awayTeam:{name:'Algeria'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group K',utcDate:'2026-06-23T17:00:00Z',status:'SCHEDULED',homeTeam:{name:'Portugal'},awayTeam:{name:'Uzbekistan'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group K',utcDate:'2026-06-24T02:00:00Z',status:'SCHEDULED',homeTeam:{name:'Colombia'},awayTeam:{name:'DR Congo'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group L',utcDate:'2026-06-23T20:00:00Z',status:'SCHEDULED',homeTeam:{name:'England'},awayTeam:{name:'Ghana'},score:{fullTime:{home:null,away:null}},goals:[]},
-    {group:'Group L',utcDate:'2026-06-23T23:00:00Z',status:'SCHEDULED',homeTeam:{name:'Panama'},awayTeam:{name:'Croatia'},score:{fullTime:{home:null,away:null}},goals:[]},
-  ];
+  const ri=document.getElementById('ri');
+  ri.classList.add('spin');
+  let api=null,err='';
+  for(const p of PROXIES){ try{api=await tryP(p);break;}catch(e){err=e.message;} }
+  ri.classList.remove('spin');
+  if(api){ merge(api); stamp(); showB('ok','Live data loaded'); }
+  else { showB('err','Could not load live data ('+err+') — showing last known results'); }
   render();
+  const live=M.some(x=>x.st==='live');
+  clearTimeout(rtimer);
+  rtimer=setTimeout(doFetch,live?60000:300000);
 }
 
-// ── Filters ───────────────────────────────────────────────────────────────
-function setSt(el){
-  document.querySelectorAll('#sp .pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active'); activeSt=el.dataset.s; render();
-}
-function setGr(el){
-  document.querySelectorAll('#gp .pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active'); activeGr=el.dataset.g; render();
+function stamp(){
+  document.getElementById('ts').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 }
 
-// ── Render ────────────────────────────────────────────────────────────────
-function render(){
-  const q=(document.getElementById('search').value||'').trim().toLowerCase();
-  const today=localDateKey(new Date().toISOString());
-
-  let ms=matches;
-  if(activeGr!=='all') ms=ms.filter(m=>m.group===activeGr);
-  if(activeSt==='played')   ms=ms.filter(m=>m.status==='FINISHED');
-  else if(activeSt==='live') ms=ms.filter(m=>['IN_PLAY','PAUSED','HALFTIME'].includes(m.status));
-  else if(activeSt==='upcoming') ms=ms.filter(m=>['SCHEDULED','TIMED'].includes(m.status));
-  if(q) ms=ms.filter(m=>
-    m.homeTeam.name.toLowerCase().includes(q)||
-    m.awayTeam.name.toLowerCase().includes(q)||
-    sf(m.homeTeam.name).toLowerCase().includes(q)||
-    sf(m.awayTeam.name).toLowerCase().includes(q)
-  );
-
-  const out=document.getElementById('output');
-  if(!ms.length){out.innerHTML='<div class="no-results">No matches found</div>';return;}
-
-  const byDate={},order=[];
-  ms.forEach(m=>{
-    const d=localDateKey(m.utcDate);
-    if(!byDate[d]){byDate[d]=[];order.push(d);}
-    byDate[d].push(m);
+function merge(api){
+  api.forEach(a=>{
+    const hn=norm(a.homeTeam?.name||''), an=norm(a.awayTeam?.name||'');
+    const loc=M.find(m=>m.h===hn&&m.a===an);
+    if(!loc) return;
+    const s=a.status;
+    if(s==='FINISHED') loc.st='played';
+    else if(['IN_PLAY','PAUSED','HALFTIME'].includes(s)) loc.st='live';
+    else loc.st='upcoming';
+    if(s!=='SCHEDULED'&&s!=='TIMED'){
+      loc.hs=a.score?.fullTime?.home??a.score?.halfTime?.home??null;
+      loc.as=a.score?.fullTime?.away??a.score?.halfTime?.away??null;
+    }
+    if(Array.isArray(a.goals)&&a.goals.length){
+      const last=n=>(n||'?').trim().split(' ').pop();
+      loc.hsc=a.goals.filter(g=>norm(g.team?.name||'')===hn).map(g=>`${last(g.scorer?.name)} ${g.minute}'`);
+      loc.asc=a.goals.filter(g=>norm(g.team?.name||'')===an).map(g=>`${last(g.scorer?.name)} ${g.minute}'`);
+    }
+    loc.min=a.minute||null;
+    loc.phase=s==='HALFTIME'?'HT':null;
   });
+}
+
+function showB(type,msg){
+  const b=document.getElementById('banner');
+  b.className='banner b-'+type;
+  b.textContent=msg;
+  b.style.display='flex';
+  if(type==='ok') setTimeout(()=>{b.style.display='none';},3000);
+}
+
+// ── Filters ────────────────────────────────────────────────────────────────
+let aSt='all',aGr='all';
+function setSt(el){document.querySelectorAll('#sp .pill').forEach(p=>p.classList.remove('on'));el.classList.add('on');aSt=el.dataset.s;render();}
+function setGr(el){document.querySelectorAll('#gp .pill').forEach(p=>p.classList.remove('on'));el.classList.add('on');aGr=el.dataset.g;render();}
+
+function today(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function render(){
+  const q=(document.getElementById('srch').value||'').trim().toLowerCase();
+  const td=today();
+  let ms=M;
+  if(aGr!=='all') ms=ms.filter(m=>m.g===aGr);
+  if(aSt==='played')   ms=ms.filter(m=>m.st==='played');
+  else if(aSt==='live') ms=ms.filter(m=>m.st==='live');
+  else if(aSt==='upcoming') ms=ms.filter(m=>m.st==='upcoming');
+  if(q) ms=ms.filter(m=>m.h.toLowerCase().includes(q)||m.a.toLowerCase().includes(q));
+
+  const out=document.getElementById('out');
+  if(!ms.length){out.innerHTML='<div class="nores">No matches found</div>';return;}
+
+  const byD={},ord=[];
+  ms.forEach(m=>{if(!byD[m.d]){byD[m.d]=[];ord.push(m.d);}byD[m.d].push(m);});
 
   let html='';
-  order.forEach(dk=>{
-    const arr=byDate[dk];
-    const label=new Date(dk+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-    html+=`<div class="date-section">
-      <div class="date-heading">${label}<span class="date-count">${arr.length} match${arr.length>1?'es':''}</span></div>
-      <div class="cards-grid">`;
-    arr.forEach(m=>{html+=card(m,today);});
+  ord.forEach(dk=>{
+    const arr=byD[dk];
+    const lbl=new Date(dk+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+    html+=`<div class="dsec"><div class="dhead">${lbl}<span class="dcnt">${arr.length} match${arr.length>1?'es':''}</span></div><div class="cgrid">`;
+    arr.forEach(m=>{html+=card(m,td);});
     html+='</div></div>';
   });
   out.innerHTML=html;
 }
 
-function card(m,today){
-  const hn=m.homeTeam.name, an=m.awayTeam.name;
-  const hm=meta(hn), am=meta(an);
-  const hf=flag(hm.iso), af=flag(am.iso);
-  const st=m.status;
-  const grp=(m.group||'').replace('Group ','');
-  const matchDate=localDateKey(m.utcDate);
-  const isToday=matchDate===today;
-  const isLive=['IN_PLAY','PAUSED','HALFTIME'].includes(st);
-  const isDone=st==='FINISHED';
-
-  let badge='', cc='match-card';
-  if(isLive){
-    cc+=' live';
-    const min=m.minute?` ${m.minute}'`:st==='HALFTIME'?' HT':'';
-    badge=`<span class="badge badge-live"><span class="live-dot"></span> Live${min}</span>`;
-  } else if(isDone){
-    badge=`<span class="badge badge-played">Final</span>`;
+function card(m,td){
+  const live=m.st==='live', done=m.st==='played', isToday=m.d===td;
+  let bdg='',cc='card';
+  if(live){
+    cc+=' clive';
+    const min=m.min?` ${m.min}'`:m.phase?` ${m.phase}`:'';
+    bdg=`<span class="bdg blive"><span class="ldot"></span> Live${min}</span>`;
+  } else if(done){
+    bdg=`<span class="bdg bplayed">Final</span>`;
   } else if(isToday){
-    cc+=' today';
-    badge=`<span class="badge badge-today">◑ Today · ${fmtTime(m.utcDate)}</span>`;
+    cc+=' ctoday';
+    bdg=`<span class="bdg btoday">&#9684; Today &middot; ${m.t}</span>`;
   } else {
-    badge=`<span class="badge badge-upcoming">${fmtTime(m.utcDate)}</span>`;
+    bdg=`<span class="bdg bup">${m.t}</span>`;
   }
 
-  let scoreHtml='';
-  if(isDone||isLive){
-    const hs=m.score?.fullTime?.home??m.score?.halfTime?.home??'–';
-    const as=m.score?.fullTime?.away??m.score?.halfTime?.away??'–';
-    scoreHtml=`<div class="score-nums">${hs}<span class="score-sep">–</span>${as}</div>`;
-    if(st==='HALFTIME') scoreHtml+=`<div class="live-min">Half time</div>`;
-    else if(m.minute) scoreHtml+=`<div class="live-min">${m.minute}'</div>`;
+  let sc='';
+  if(done||live){
+    const h=m.hs!==null?m.hs:'&ndash;', a=m.as!==null?m.as:'&ndash;';
+    sc=`<div class="snums">${h}<span class="ssep">&ndash;</span>${a}</div>`;
+    if(m.phase) sc+=`<div class="smin">${m.phase}</div>`;
+    else if(m.min) sc+=`<div class="smin">${m.min}'</div>`;
   } else {
-    scoreHtml=`<div class="score-time">${fmtTime(m.utcDate)}</div>`;
+    sc=`<div class="stime">${m.t}</div>`;
   }
 
-  // Scorers — normalise team names before comparing so alias variants match
-  const goals=m.goals||[];
-  const hKey=API_ALIAS[hn]||hn;
-  const aKey=API_ALIAS[an]||an;
-  const hg=goals.filter(g=>{ const k=API_ALIAS[g.team?.name]||g.team?.name; return k===hKey||g.team?.name===hn; });
-  const ag=goals.filter(g=>{ const k=API_ALIAS[g.team?.name]||g.team?.name; return k===aKey||g.team?.name===an; });
-  let scorerHtml='';
-  if((isDone||isLive)&&(hg.length||ag.length)){
-    const lastName=n=>(n||'?').split(' ').pop();
-    const hsc=hg.map(g=>`<div class="scorer-item">⚽ ${lastName(g.scorer?.name)} ${g.minute}'</div>`).join('');
-    const asc=ag.map(g=>`<div class="scorer-item">${lastName(g.scorer?.name)} ${g.minute}' ⚽</div>`).join('');
-    scorerHtml=`<div style="margin-bottom:6px">
-      <div class="detail-label">Goal scorers</div>
-      <div class="two-col">
-        <div class="col-l">${hsc||(ag.length?'<div class="scorer-item" style="opacity:.3">—</div>':'')}</div>
-        <div class="col-r">${asc||(hg.length?'<div class="scorer-item" style="opacity:.3">—</div>':'')}</div>
+  // Scorers — only shown when game is played or live
+  let scorers='';
+  if((done||live)&&(m.hsc.length||m.asc.length)){
+    const hl=m.hsc.map(s=>`<div class="si">&#9917; ${s}</div>`).join('');
+    const al=m.asc.map(s=>`<div class="si">${s} &#9917;</div>`).join('');
+    scorers=`<div style="margin-bottom:5px">
+      <div class="dlbl">Goal scorers</div>
+      <div class="dcols">
+        <div class="dcl">${hl||(m.asc.length?'<div class="si" style="opacity:.3">&#8212;</div>':'')}</div>
+        <div class="dcr">${al||(m.hsc.length?'<div class="si" style="opacity:.3">&#8212;</div>':'')}</div>
       </div></div>`;
   }
 
-  const hs=(hm.stars||[]).slice(0,2), as2=(am.stars||[]).slice(0,2);
-  const starsHtml=`<div>
-    <div class="detail-label">Key players</div>
-    <div class="two-col">
-      <div class="col-l">${hs.map(s=>`<div class="star-item"><span class="star-g">★</span> ${s}</div>`).join('')}</div>
-      <div class="col-r">${as2.map(s=>`<div class="star-item">${s} <span class="star-g">★</span></div>`).join('')}</div>
+  const hs=(m.hs2||[]).slice(0,2), as=(m.as2||[]).slice(0,2);
+  const stars=`<div>
+    <div class="dlbl">Key players</div>
+    <div class="dcols">
+      <div class="dcl">${hs.map(s=>`<div class="sti"><span class="starg">&#9733;</span> ${s}</div>`).join('')}</div>
+      <div class="dcr">${as.map(s=>`<div class="sti">${s} <span class="starg">&#9733;</span></div>`).join('')}</div>
     </div></div>`;
 
   return `<div class="${cc}">
-    <div class="card-top"><span class="card-meta">Group ${grp}</span>${badge}</div>
-    <div class="teams-row">
-      <div class="team-block">
-        <span class="flag">${hf}</span>
-        <div class="team-name">${sf(hn)}</div>
-        <div class="team-rank">FIFA #${hm.rank}</div>
+    <div class="ctop"><span class="cmeta">Group ${m.g}</span>${bdg}</div>
+    <div class="trow">
+      <div class="tblk">
+        <span class="flag">${m.hf}</span>
+        <div class="tname">${m.h}</div>
+        <div class="trank">FIFA #${m.hr}</div>
       </div>
-      <div class="score-block">${scoreHtml}</div>
-      <div class="team-block away">
-        <span class="flag away">${af}</span>
-        <div class="team-name">${sf(an)}</div>
-        <div class="team-rank">FIFA #${am.rank}</div>
+      <div class="sblk">${sc}</div>
+      <div class="tblk away">
+        <span class="flag away">${m.af}</span>
+        <div class="tname">${m.a}</div>
+        <div class="trank">FIFA #${m.ar}</div>
       </div>
     </div>
-    <div class="detail">${scorerHtml}${starsHtml}</div>
+    <div class="det">${scorers}${stars}</div>
   </div>`;
 }
 
-function fmtTime(utc){
-  return new Date(utc).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
-}
-
-function localDateKey(utc){
-  const d=new Date(utc);
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,'0');
-  const day=String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
-
-// ── Boot ──────────────────────────────────────────────────────────────────
 doFetch();
 </script>
 </body>
