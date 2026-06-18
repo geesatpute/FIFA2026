@@ -220,15 +220,41 @@ const META = {
   'Panama':                  {rank:77,stars:['Rolando Blackburn','Ismael Díaz'],iso:'PA'},
 };
 
-const SHORT = {
-  'Bosnia and Herzegovina':'Bosnia & Herz.',
-  'Korea Republic':'South Korea',
-  'United States':'USA',
-  "Côte d'Ivoire":'Ivory Coast',
-  'Cabo Verde':'Cape Verde',
+// API name → META key (covers every known variant football-data.org uses)
+const API_ALIAS = {
+  'Korea Republic':           'Korea Republic',
+  'Republic of Korea':        'Korea Republic',
+  'South Korea':              'Korea Republic',
+  'Bosnia and Herzegovina':   'Bosnia and Herzegovina',
+  'Bosnia & Herzegovina':     'Bosnia and Herzegovina',
+  'United States':            'United States',
+  'USA':                      'United States',
+  "Côte d'Ivoire":            "Côte d'Ivoire",
+  'Ivory Coast':              "Côte d'Ivoire",
+  "Cote d'Ivoire":            "Côte d'Ivoire",
+  'Cabo Verde':               'Cabo Verde',
+  'Cape Verde':               'Cabo Verde',
+  'DR Congo':                 'DR Congo',
+  'Congo DR':                 'DR Congo',
+  'Democratic Republic of Congo': 'DR Congo',
+  'Türkiye':                  'Türkiye',
+  'Turkey':                   'Türkiye',
+  'Scotland':                 'Scotland',
+  'England':                  'England',
 };
-const sf = n => SHORT[n] || n;
-const meta = n => META[n] || {rank:'—',stars:[],iso:''};
+
+const SHORT = {
+  'Bosnia and Herzegovina':   'Bosnia & Herz.',
+  'Korea Republic':           'South Korea',
+  'United States':            'USA',
+  "Côte d'Ivoire":            'Ivory Coast',
+  'Cabo Verde':               'Cape Verde',
+};
+const sf = n => SHORT[n] || SHORT[API_ALIAS[n]] || n;
+const meta = n => {
+  const key = API_ALIAS[n] || n;
+  return META[key] || META[n] || {rank:'—',stars:[],iso:''};
+};
 
 // Flag from ISO-2
 const SPEC = {GBSCT:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',GBENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'};
@@ -370,7 +396,7 @@ function setGr(el){
 // ── Render ────────────────────────────────────────────────────────────────
 function render(){
   const q=(document.getElementById('search').value||'').trim().toLowerCase();
-  const today=new Date().toISOString().slice(0,10);
+  const today=localDateKey(new Date().toISOString());
 
   let ms=matches;
   if(activeGr!=='all') ms=ms.filter(m=>m.group===activeGr);
@@ -389,7 +415,7 @@ function render(){
 
   const byDate={},order=[];
   ms.forEach(m=>{
-    const d=m.utcDate.slice(0,10);
+    const d=localDateKey(m.utcDate);
     if(!byDate[d]){byDate[d]=[];order.push(d);}
     byDate[d].push(m);
   });
@@ -397,7 +423,7 @@ function render(){
   let html='';
   order.forEach(dk=>{
     const arr=byDate[dk];
-    const label=new Date(dk+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+    const label=new Date(dk+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
     html+=`<div class="date-section">
       <div class="date-heading">${label}<span class="date-count">${arr.length} match${arr.length>1?'es':''}</span></div>
       <div class="cards-grid">`;
@@ -413,7 +439,7 @@ function card(m,today){
   const hf=flag(hm.iso), af=flag(am.iso);
   const st=m.status;
   const grp=(m.group||'').replace('Group ','');
-  const matchDate=m.utcDate.slice(0,10);
+  const matchDate=localDateKey(m.utcDate);
   const isToday=matchDate===today;
   const isLive=['IN_PLAY','PAUSED','HALFTIME'].includes(st);
   const isDone=st==='FINISHED';
@@ -443,10 +469,12 @@ function card(m,today){
     scoreHtml=`<div class="score-time">${fmtTime(m.utcDate)}</div>`;
   }
 
-  // Scorers
+  // Scorers — normalise team names before comparing so alias variants match
   const goals=m.goals||[];
-  const hg=goals.filter(g=>g.team?.name===hn);
-  const ag=goals.filter(g=>g.team?.name===an);
+  const hKey=API_ALIAS[hn]||hn;
+  const aKey=API_ALIAS[an]||an;
+  const hg=goals.filter(g=>{ const k=API_ALIAS[g.team?.name]||g.team?.name; return k===hKey||g.team?.name===hn; });
+  const ag=goals.filter(g=>{ const k=API_ALIAS[g.team?.name]||g.team?.name; return k===aKey||g.team?.name===an; });
   let scorerHtml='';
   if((isDone||isLive)&&(hg.length||ag.length)){
     const lastName=n=>(n||'?').split(' ').pop();
@@ -489,6 +517,14 @@ function card(m,today){
 
 function fmtTime(utc){
   return new Date(utc).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'});
+}
+
+function localDateKey(utc){
+  const d=new Date(utc);
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────
